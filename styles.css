@@ -4,7 +4,8 @@ body { background:#faf7f5; color:#333; padding-bottom:90px; }
 
 .site-header { background:linear-gradient(135deg,#e63946,#c1121f); color:#fff; padding:28px 0 22px; text-align:center; border-radius:0 0 24px 24px; }
 .site-header h1 { font-size:26px; font-weight:800; }
-.announcement { margin-top:6px; font-size:14px; opacity:.95; }
+.announcement { margin:10px auto 0; font-size:15px; font-weight:800; background:#ffd166; color:#7a4d00; display:inline-block; padding:8px 18px; border-radius:20px; box-shadow:0 2px 6px rgba(0,0,0,.15); }
+.announcement:empty { display:none; }
 
 .cats { display:flex; gap:8px; margin:18px auto; overflow-x:auto; padding-bottom:4px; }
 .cats button { border:1px solid #e63946; background:#fff; color:#e63946; padding:6px 16px; border-radius:20px; font-size:14px; font-weight:600; white-space:nowrap; cursor:pointer; }
@@ -56,3 +57,4 @@ input:focus, textarea:focus { outline:none; border-color:#e63946; }
 .center { text-align:center; }
 .done-emoji { font-size:52px; margin-bottom:8px; }
 .hidden { display:none !important; }
+ 

@@ -12,3 +12,4 @@ const CONFIG = {
   supabaseUrl: "https://wapqrrcemtcevbebeijm.supabase.co",
   supabaseKey: "sb_publishable_PnCm6oL1wnR6ZaVExmaRqQ_RyovYvuJ"
 };
+ 

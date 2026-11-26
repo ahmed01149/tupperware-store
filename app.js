@@ -117,7 +117,7 @@ function copyVf() {
 
 async function submitOrder() {
   const payFrom = $('fPayFrom').value.trim();
-  if (!/^01\d{9}$/.test(payFrom)) { alert('اكتبي رقم الموبايل اللي حوّلتي منه (11 رقم) عشان ماما تطابق التحويل 🙏'); return; }
+  if (!/^01\d{9}$/.test(payFrom)) { alert('اكتبي رقم الموبايل اللي حوّلتي منه (11 رقم) عشان صاحبة المحل تطابق التحويل 🙏'); return; }
   const btn = document.querySelector('#payModal .primary');
   btn.disabled = true; btn.textContent = 'جاري تسجيل الطلب...';
   const orderNo = 'T' + Date.now().toString().slice(-6);
@@ -152,7 +152,7 @@ ${lines.join('\n')}
 📎 سكرين شوت التحويل هيتبعت هنا في الشات.`;
   window.open('https://wa.me/' + CONFIG.whatsapp + '?text=' + encodeURIComponent(msg), '_blank');
   $('payModal').classList.add('hidden');
-  $('doneText').textContent = 'طلبك رقم ' + orderNo + ' اتسجل واتبعت على واتساب. ابعتي سكرين شوت التحويل في الشات وماما هتأكدلك الطلب 💛';
+  $('doneText').textContent = 'طلبك رقم ' + orderNo + ' اتسجل واتبعت على واتساب. ابعتي سكرين شوت التحويل في الشات وصاحبة المحل هتأكدلك الطلب 💛';
   $('doneModal').classList.remove('hidden');
   cart = {}; localStorage.setItem('tup_cart', '{}');
   btn.disabled = false; btn.textContent = 'تأكيد الطلب وإرساله ✅';

@@ -3,7 +3,7 @@ const CONFIG = {
   storeName: "Elizabeth Tupperware",
   whatsapp: "201149663314",           // مؤقت: رقم أحمد — يتغير من لوحة التحكم
   vfCash: "01149663314",              // مؤقت: محفظة أحمد — يتغير من لوحة التحكم
-  vfCashName: "ماما",
+  vfCashName: "صاحبة المحل",
   currency: "جنيه",
   deliveryNote: "التوصيل داخل إسكندرية فقط",
   announcement: "",

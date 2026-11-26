@@ -1,5 +1,6 @@
 const $ = id => document.getElementById(id);
 let sb = null;
+const fmt = n => { const v = Number(n); return (Number.isInteger(v) ? String(v) : v.toFixed(2)) + ' ' + CONFIG.currency; };
 const STATUS = {
   pending_payment: ['بانتظار الدفع ⏳', 'b-pending'],
   confirmed: ['مدفوع ✅', 'b-confirmed'],
@@ -85,7 +86,7 @@ async function loadOrders() {
       <div class="row">📍 ${o.address}</div>
       ${o.notes ? `<div class="row">📝 ${o.notes}</div>` : ''}
       <div class="row">🧺 ${items}</div>
-      <div class="row">💰 <b>${o.total} ${CONFIG.currency}</b> — 💸 من رقم <span dir="ltr">${o.pay_from || '؟'}</span>${o.pay_ref ? ' — مرجع: ' + o.pay_ref : ''}</div>
+      <div class="row">💰 <b>${fmt(o.total)}</b> — 💸 من رقم <span dir="ltr">${o.pay_from || '؟'}</span>${o.pay_ref ? ' — مرجع: ' + o.pay_ref : ''}</div>
       <div class="row" style="color:#aaa;font-size:12px">${new Date(o.created_at).toLocaleString('ar-EG')}</div>
       <div class="actions">${btns}</div>
     </div>`;
@@ -103,7 +104,7 @@ async function loadProducts() {
   $('prodList').innerHTML = prods.map(p => `
     <div class="prod-row ${p.available ? '' : 'avail-off'}">
       ${p.photo_url ? `<img src="${p.photo_url}">` : `<div class="ph">${p.emoji || '🥡'}</div>`}
-      <div class="info"><b>${p.name}</b><span>${p.price} ${CONFIG.currency} — ${p.category || ''}</span></div>
+      <div class="info"><b>${p.name}</b><span>${fmt(p.price)} — ${p.category || ''}</span></div>
       <button class="icon-btn" onclick="toggleAvail('${p.id}',${!p.available})">${p.available ? 'إخفاء' : 'إظهار'}</button>
       <button class="icon-btn" onclick="editPrice('${p.id}',${p.price})">تعديل سعر</button>
       <button class="icon-btn" onclick="delProduct('${p.id}')">🗑</button>
@@ -111,8 +112,8 @@ async function loadProducts() {
 }
 
 async function addProduct() {
-  const name = $('pName').value.trim(), price = parseInt($('pPrice').value);
-  if (!name || !price) { alert('اكتبي الاسم والسعر'); return; }
+  const name = $('pName').value.trim(), price = parseFloat($('pPrice').value);
+  if (!name || !Number.isFinite(price) || price <= 0) { alert('اكتبي الاسم والسعر'); return; }
   let photo_url = null;
   const file = $('pPhoto').files[0];
   if (file) {
@@ -129,7 +130,8 @@ async function addProduct() {
 async function toggleAvail(id, v) { await sb.from('products').update({ available: v }).eq('id', id); loadProducts(); }
 async function editPrice(id, cur) {
   const v = prompt('السعر الجديد:', cur);
-  if (v && parseInt(v) > 0) { await sb.from('products').update({ price: parseInt(v) }).eq('id', id); loadProducts(); }
+  const price = parseFloat(v);
+  if (v && Number.isFinite(price) && price > 0) { await sb.from('products').update({ price }).eq('id', id); loadProducts(); }
 }
 async function delProduct(id) {
   if (confirm('متأكدة إنك عايزة تمسحي المنتج ده؟')) { await sb.from('products').delete().eq('id', id); loadProducts(); }

@@ -80,7 +80,7 @@ function renderCartBar() {
   const n = cartCount();
   $('cartBar').classList.toggle('hidden', n === 0);
   $('cartBarText').textContent = n + ' منتج — ' + fmt(cartTotal());
-}
+} 
 
 function openCart() { renderCartItems(); $('cartModal').classList.remove('hidden'); }
 function renderCartItems() {

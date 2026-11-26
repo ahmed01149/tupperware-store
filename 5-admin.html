@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>لوحة التحكم</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+.tabs{display:flex;gap:8px;margin:16px 0}
+.tabs button{flex:1;padding:10px;border:1.5px solid #e63946;background:#fff;color:#e63946;border-radius:10px;font-weight:700;cursor:pointer}
+.tabs button.active{background:#e63946;color:#fff}
+.order{background:#fff;border-radius:14px;padding:14px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.order .head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.badge{padding:3px 12px;border-radius:12px;font-size:12px;font-weight:700}
+.b-pending{background:#fff3cd;color:#8a6d00}.b-confirmed{background:#d4edda;color:#1e6b34}.b-rejected{background:#f8d7da;color:#9b1c24}.b-done{background:#d1ecf1;color:#0c5460}
+.order .row{font-size:14px;margin:3px 0;color:#444}
+.order .actions{display:flex;gap:8px;margin-top:10px}
+.order .actions button{flex:1;padding:9px;border:none;border-radius:10px;font-weight:700;cursor:pointer;font-size:14px}
+.ok{background:#28a745;color:#fff}.no{background:#dc3545;color:#fff}.done{background:#17a2b8;color:#fff}
+.prod-row{display:flex;gap:10px;align-items:center;background:#fff;border-radius:12px;padding:10px;margin-bottom:10px;box-shadow:0 2px 6px rgba(0,0,0,.05)}
+.prod-row img,.prod-row .ph{width:54px;height:54px;border-radius:10px;object-fit:cover;display:flex;align-items:center;justify-content:center;font-size:26px;background:#f5f0ee}
+.prod-row .info{flex:1}.prod-row .info b{font-size:14px}.prod-row .info span{display:block;font-size:12px;color:#888}
+.icon-btn{border:none;background:#fdeef0;color:#e63946;border-radius:8px;padding:7px 10px;cursor:pointer;font-weight:700;font-size:13px}
+.avail-off{opacity:.45}
+#loginBox{max-width:400px;margin:60px auto;background:#fff;padding:24px;border-radius:16px;box-shadow:0 4px 16px rgba(0,0,0,.08)}
+.stat{display:inline-block;background:#fff;border-radius:12px;padding:10px 18px;margin:4px;box-shadow:0 2px 6px rgba(0,0,0,.05);font-size:14px}
+.stat b{color:#e63946;font-size:18px;display:block}
+</style>
+</head>
+<body>
+
+<div id="loginBox">
+  <h2 style="text-align:center;margin-bottom:16px">لوحة تحكم ماما 🔐</h2>
+  <label>الإيميل<input id="aEmail" type="email" dir="ltr"></label>
+  <label>الباسورد<input id="aPass" type="password" dir="ltr"></label>
+  <button class="primary" onclick="login()">دخول</button>
+  <p id="loginErr" style="color:#c1121f;font-size:13px;margin-top:8px;text-align:center"></p>
+</div>
+
+<div id="panel" class="wrap hidden" style="padding-top:16px">
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <h2>لوحة التحكم</h2>
+    <button class="icon-btn" onclick="logout()">خروج</button>
+  </div>
+  <div id="stats"></div>
+  <div class="tabs">
+    <button id="tabOrders" class="active" onclick="showTab('orders')">الطلبات 🧾</button>
+    <button id="tabProducts" onclick="showTab('products')">المنتجات 🧺</button>
+    <button id="tabSettings" onclick="showTab('settings')">الإعدادات ⚙️</button>
+  </div>
+
+  <div id="ordersTab"></div>
+
+  <div id="settingsTab" class="hidden">
+    <div class="order">
+      <h3 style="margin-bottom:10px">إعدادات المحل ⚙️</h3>
+      <label>اسم المحل<input id="sName" type="text"></label>
+      <label>رقم واتساب استلام الطلبات (بكود الدولة من غير +)<input id="sWhats" type="tel" dir="ltr" placeholder="201xxxxxxxxx"></label>
+      <label>رقم محفظة فودافون كاش<input id="sVf" type="tel" dir="ltr" placeholder="01xxxxxxxxx"></label>
+      <label>اسم صاحبة المحفظة<input id="sVfName" type="text"></label>
+      <label>ملاحظة التوصيل<input id="sDeliv" type="text" placeholder="التوصيل داخل إسكندرية فقط"></label>
+      <label>جملة الترحيب فوق الموقع<input id="sAnn" type="text"></label>
+      <button class="primary" onclick="saveSettings()">حفظ الإعدادات 💾</button>
+      <p id="setMsg" style="color:#1e6b34;font-size:13px;margin-top:8px;text-align:center"></p>
+    </div>
+  </div>
+
+  <div id="productsTab" class="hidden">
+    <div class="order">
+      <h3 style="margin-bottom:10px">إضافة منتج جديد ➕</h3>
+      <label>اسم المنتج<input id="pName" type="text"></label>
+      <label>السعر<input id="pPrice" type="number" inputmode="numeric"></label>
+      <label>القسم<input id="pCat" type="text" placeholder="علب / زجاجات / أطقم"></label>
+      <label>وصف قصير (اختياري)<input id="pDesc" type="text"></label>
+      <label>صورة المنتج<input id="pPhoto" type="file" accept="image/*"></label>
+      <button class="primary" onclick="addProduct()">إضافة المنتج</button>
+    </div>
+    <div id="prodList"></div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>
